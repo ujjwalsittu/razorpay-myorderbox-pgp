@@ -1,7 +1,7 @@
 # MyOrderBox-Razorpay Payment Gateway Integration
 
-[![Vercel](https://vercelbadges.vercel.app/razorpay-myorderbox-pgp)](https://razorpay-myorderbox-pgp.vercel.app/)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/razorpay-myorderbox-pgp)
+![Vercel Deploy](https://deploy-badge.vercel.app/vercel/razorpay-myorderbox-pgp)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/ujjwalsittu/razorpay-myorderbox-pgp)
 
 A modern, secure payment gateway integration that connects Razorpay with MyOrderBox payment processing system. Built with Next.js, TypeScript, and Tailwind CSS for a seamless payment experience.
 
