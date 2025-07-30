@@ -1,196 +1,40 @@
-# 💳 Razorpay + MyOrderBox Integration Gateway
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
 
-[![Vercel Deployment Status](https://vercel-badge.vercel.app/?app=razorpay-myorderbox-pgp)](https://razorpay-myorderbox-pgp.vercel.app)
+## Getting Started
 
-A seamless payment gateway built using **Next.js (App Router)** that integrates **Razorpay** as a custom payment method for **MyOrderBox / ResellerClub / LogicBoxes** domains and hosting platforms.
-
----
-
-## ✨ Features
-
-- ✅ **Custom Razorpay Checkout** integration for MyOrderBox
-- 🔐 **Checksum validation** (incoming and outgoing) using secure hashing
-- 📦 **Full payment lifecycle**:
-  - Pre-payment order summary
-  - Razorpay Checkout popup
-  - Post-payment `/status` page with confirmation
-  - Auto and manual redirect to MyOrderBox using secure checksum
-- 📱 Fully **responsive UI**, designed using **shadcn/ui** + **Tailwind CSS**
-- 🖼️ Razorpay logo in navbar on all pages
-- 💫 (Optional) Fancy 3D animated space scene background (React Three Fiber)
-
----
-
-## 🧱 Tech Stack
-
-- **Next.js (App Router)**
-- **TypeScript**
-- **Tailwind CSS + shadcn/ui**
-- **Razorpay Node SDK**
-- **Crypto (Node.js) for checksum**
-- **React Three Fiber (Optional Visuals)**
-
----
-
-## 📁 Project Structure
-
-```
-/app
-  /pay            # Payment form page (/pay)
-  /status         # Payment status + post-payment checksum redirect
-  /success        # Optional thank you page
-  /api
-    /razorpay
-      route.ts    # Razorpay order creation (server action)
-    /verify-checksum
-      route.ts    # MyOrderBox checksum validation
-
-/components
-  Navbar.tsx      # Razorpay logo navbar
-  RazorpayForm.tsx # Payment initiation form
-  StatusScreen.tsx # Payment verification & status display
-  SpaceTrailBackground.tsx # (Optional) 3D space scene
-
-/lib
-  razorpay.ts     # Razorpay instance setup
-  checksum.ts     # Checksum utilities (create, verify)
-
-.env.local        # Razorpay keys + MyOrderBox secret
-```
-
----
-
-## ⚙️ Setup Instructions
-
-### 1. Clone the repo
-
-```bash
-git clone https://github.com/yourname/razorpay-myorderbox-gateway.git
-cd razorpay-myorderbox-gateway
-```
-
-### 2. Install dependencies
-
-```bash
-npm install
-```
-
-### 3. Configure .env.local
-
-Create a `.env.local` file:
-
-```env
-RAZORPAY_KEY_ID=your_razorpay_key_id
-RAZORPAY_KEY_SECRET=your_razorpay_key_secret
-MYORDERBOX_SECRET_KEY=your_myorderbox_secret_key
-```
-
----
-
-## ⚙️ Setup Instructions
-
-### 1. Clone the repo
-
-```
-git clone https://github.com/yourname/razorpay-myorderbox-gateway.git
-```
-
-```
-cd razorpay-myorderbox-gateway
-```
-
-2. Install dependencies
-
-```npm install
-
-```
-
-3. Configure .env.local
-   Create a .env.local file:
-
-```
-RAZORPAY_KEY_ID=your_razorpay_key_id
-RAZORPAY_KEY_SECRET=your_razorpay_key_secret
-```
-
-## 🧪 How the Flow Works
-
-### 🔗 MyOrderBox redirects the user to:
-
-```
-https://yourdomain.com/pay?order_id=xxxx&amount=999&name=John&email=x&phone=...
-```
-
-### 🧾 /pay page:
-
-- Verifies checksum (optional for incoming)
-- Shows order summary and amount
-- Loads Razorpay Checkout when user clicks "Pay Now"
-
-### 💸 After payment:
-
-- Razorpay callback or redirect hits /status
-- Server verifies Razorpay payment ID and signature
-- Prepares checksum using your MYORDERBOX_SECRET_KEY
-- Auto + manual redirect back to MyOrderBox with payment_status=success&checksum=...
-
-### ✅ Example Success Redirect
-
-```
-https://yourdomain.com/status?razorpay_payment_id=...&razorpay_order_id=...
-```
-
-### ✅ Then redirects to:
-
-```
-https://publicapi.myorderbox.com/servlet/CustomPaymentReceiptServlet?payment_status=success&checksum=generatedChecksum&order_id=...
-```
-
-## 🧪 Local Development
-
-Run your dev server:
+First, run the development server:
 
 ```bash
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-Open:
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-```
-http://localhost:3000/pay?order_id=1234&amount=1000&name=Test+User&email=test@example.com&phone=9999999999
-```
+You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-## 📦 Build for Production
+[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
-```bash
-npm run build
-npm start
-```
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
 
-## 🔒 Security
+This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-- All checksums are created using HMAC SHA-256
-- Razorpay signature verification is server-side
-- Never expose secrets on the client
+## Learn More
 
-## 🎨 Optional Visual Add-on
+To learn more about Next.js, take a look at the following resources:
 
-To add the animated space background with stars, planets, and trails:
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
 
-```tsx
-<SpaceTrailBackground />
-```
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-📦 Requires:
+## Deploy on Vercel
 
-```bash
-npm install @react-three/fiber @react-three/drei @react-three/postprocessing three
-```
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-## 📄 License
-
-MIT
-
-## 🙋 Support
-
-If you're integrating with LogicBoxes or ResellerClub and need custom support or domain-specific logic, feel free to open an issue or contact the maintainer.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
