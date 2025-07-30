@@ -8,13 +8,11 @@ export default function Navbar() {
         <div className="flex justify-between h-16 items-center">
           <Link href="/" className="flex items-center space-x-2">
             <CreditCard className="h-8 w-8 text-blue-600" />
-            <span className="text-xl font-bold text-gray-900">
-              Growthia Payment Page
-            </span>
+            <span className="text-xl font-bold text-gray-900">Growthia</span>
           </Link>
           <div className="flex items-center space-x-4">
             <span className="text-sm text-gray-600">
-              Secure Payment Gateway
+              Secure Payment Terminal
             </span>
           </div>
         </div>

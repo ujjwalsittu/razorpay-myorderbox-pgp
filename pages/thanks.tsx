@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, XCircle } from "lucide-react";
+import Footer from "@/components/footer";
 
 export default function ThanksPage() {
   const router = useRouter();
@@ -59,6 +60,7 @@ export default function ThanksPage() {
             </CardContent>
           </Card>
         </main>
+        <Footer />
       </div>
     </>
   );
