@@ -8,9 +8,38 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+interface RazorpayResponse {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+}
+
+interface RazorpayOptions {
+  key: string;
+  amount: number;
+  currency: string;
+  name: string;
+  description: string;
+  order_id: string;
+  prefill: {
+    name: string;
+    email: string;
+    contact: string;
+  };
+  theme: {
+    color: string;
+  };
+  handler: (response: RazorpayResponse) => Promise<void>;
+  modal: {
+    ondismiss: () => void;
+  };
+}
+
 declare global {
   interface Window {
-    Razorpay: any;
+    Razorpay: new (options: RazorpayOptions) => {
+      open: () => void;
+    };
   }
 }
 
@@ -55,6 +84,13 @@ export default function Home() {
       return;
     }
 
+    // Add type guard for Razorpay key
+    const razorpayKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+    if (!razorpayKey) {
+      alert("Payment configuration error. Please try again later.");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -72,8 +108,8 @@ export default function Home() {
 
       const order = await orderResponse.json();
 
-      const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      const options: RazorpayOptions = {
+        key: razorpayKey,
         amount: order.amount,
         currency: order.currency,
         name: "MyOrderBox Pay",
@@ -87,7 +123,7 @@ export default function Home() {
         theme: {
           color: "#3B82F6",
         },
-        handler: async function (response: any) {
+        handler: async function (response: RazorpayResponse) {
           // Verify payment
           const verifyResponse = await fetch("/api/verify-payment", {
             method: "POST",

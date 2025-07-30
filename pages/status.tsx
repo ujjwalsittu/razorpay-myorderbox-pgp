@@ -13,6 +13,57 @@ export default function StatusPage() {
   const [redirecting, setRedirecting] = useState(false);
 
   useEffect(() => {
+    const handleRedirect = async () => {
+      if (!router.query.redirecturl) return;
+
+      setRedirecting(true);
+
+      const transid = router.query.transid as string;
+      const status = router.query.status as string;
+      const redirecturl = decodeURIComponent(
+        router.query.redirecturl as string
+      );
+      const sellingamount = router.query.sellingamount as string;
+      const accountingamount = router.query.accountingamount as string;
+
+      // Generate random key and checksum for MyOrderBox
+      const rkey = generateRandomKey();
+      const key = process.env.MYORDERBOX_KEY || "";
+      const checksum = generateChecksum(
+        transid,
+        sellingamount,
+        accountingamount,
+        status,
+        rkey,
+        key
+      );
+
+      // Create form and submit to MyOrderBox
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = redirecturl;
+
+      const fields = {
+        transid,
+        status,
+        rkey,
+        checksum,
+        sellingamount,
+        accountingamount,
+      };
+
+      Object.entries(fields).forEach(([name, value]) => {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = name;
+        input.value = value;
+        form.appendChild(input);
+      });
+
+      document.body.appendChild(form);
+      form.submit();
+    };
+
     if (router.isReady && router.query.redirecturl) {
       const timer = setInterval(() => {
         setCountdown((prev) => {
@@ -29,7 +80,7 @@ export default function StatusPage() {
     }
   }, [router.isReady, router.query]);
 
-  const handleRedirect = async () => {
+  const handleManualRedirect = async () => {
     if (!router.query.redirecturl) return;
 
     setRedirecting(true);
@@ -164,7 +215,7 @@ export default function StatusPage() {
 
               {router.query.redirecturl && (
                 <Button
-                  onClick={handleRedirect}
+                  onClick={handleManualRedirect}
                   disabled={redirecting}
                   className="w-full"
                   size="lg"
