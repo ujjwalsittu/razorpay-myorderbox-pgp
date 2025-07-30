@@ -35,6 +35,14 @@ export function verifyChecksum(
 ): boolean {
   const str = `${paymentTypeId}|${transId}|${userId}|${userType}|${transactionType}|${invoiceIds}|${debitNoteIds}|${description}|${sellingCurrencyAmount}|${accountingCurrencyAmount}|${key}`;
   const generatedChecksum = crypto.createHash("md5").update(str).digest("hex");
+
+  // Add debugging in development
+  if (process.env.NODE_ENV === "development") {
+    console.log("Checksum String:", str);
+    console.log("Generated Checksum:", generatedChecksum);
+    console.log("Received Checksum:", checksum);
+  }
+
   return generatedChecksum === checksum;
 }
 

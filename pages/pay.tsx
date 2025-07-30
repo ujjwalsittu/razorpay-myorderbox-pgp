@@ -88,15 +88,15 @@ export default function PaymentPage() {
         transactiontype: (query.transactiontype as string) || "",
         invoiceids: (query.invoiceids as string) || "",
         debitnoteids: (query.debitnoteids as string) || "",
-        description: (query.description as string) || "",
+        description: decodeURIComponent((query.description as string) || ""),
         sellingcurrencyamount: (query.sellingcurrencyamount as string) || "",
         accountingcurrencyamount:
           (query.accountingcurrencyamount as string) || "",
-        redirecturl: (query.redirecturl as string) || "",
+        redirecturl: decodeURIComponent((query.redirecturl as string) || ""),
         checksum: (query.checksum as string) || "",
-        name: (query.name as string) || "",
-        email: (query.emailAddr as string) || "",
-        company: (query.company as string) || "",
+        name: decodeURIComponent((query.name as string) || ""),
+        email: decodeURIComponent((query.emailAddr as string) || ""),
+        company: decodeURIComponent((query.company as string) || ""),
         address1: (query.address1 as string) || "",
         city: (query.city as string) || "",
         state: (query.state as string) || "",
@@ -108,28 +108,31 @@ export default function PaymentPage() {
       setPaymentData(data);
 
       // Verify checksum
-      const key = process.env.MYORDERBOX_KEY || "";
-      const isValid = verifyChecksum(
-        data.paymenttypeid,
-        data.transid,
-        data.userid,
-        data.usertype,
-        data.transactiontype,
-        data.invoiceids,
-        data.debitnoteids,
-        data.description,
-        data.sellingcurrencyamount,
-        data.accountingcurrencyamount,
-        key,
-        data.checksum
-      );
-
-      setVerified(isValid);
-      if (!isValid) {
-        setError("Checksum verification failed. Invalid request.");
-      }
+      verifyPaymentData(data);
     }
   }, [router.isReady, router.query]);
+
+  const verifyPaymentData = async (data: PaymentData) => {
+    try {
+      const response = await fetch("/api/verify-checksum", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      setVerified(result.valid);
+
+      if (!result.valid) {
+        setError("Checksum verification failed. Invalid request.");
+      }
+    } catch (error) {
+      console.error("Verification error:", error);
+      setError("Verification failed. Please try again.");
+    }
+  };
 
   const handlePayment = async () => {
     if (!paymentData || !verified) return;
