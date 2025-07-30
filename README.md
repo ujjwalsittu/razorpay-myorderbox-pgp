@@ -1,5 +1,7 @@
 # 💳 Razorpay + MyOrderBox Integration Gateway
 
+[![Vercel Deployment Status](https://vercel-badge.vercel.app/?app=razorpay-myorderbox-pgp)](https://razorpay-myorderbox-pgp.vercel.app)
+
 A seamless payment gateway built using **Next.js (App Router)** that integrates **Razorpay** as a custom payment method for **MyOrderBox / ResellerClub / LogicBoxes** domains and hosting platforms.
 
 ---

@@ -2,12 +2,13 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Loader2, CheckCircle, XCircle, Clock } from "lucide-react";
 
-export default function StatusPage() {
+// Separate component that uses useSearchParams
+function StatusContent() {
   const searchParams = useSearchParams();
 
   const [redirectCountdown, setRedirectCountdown] = useState(5);
@@ -86,5 +87,14 @@ export default function StatusPage() {
         </Button>
       </div>
     </div>
+  );
+}
+
+// Main component that wraps StatusContent in a Suspense boundary
+export default function StatusPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="h-6 w-6 animate-spin" /></div>}>
+      <StatusContent />
+    </Suspense>
   );
 }
