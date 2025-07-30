@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { generateChecksum, generateRandomKey } from "@/lib/utils";
 import { CheckCircle, XCircle, Clock } from "lucide-react";
+import Footer from "@/components/footer";
 
 export default function StatusPage() {
   const router = useRouter();
@@ -226,6 +227,7 @@ export default function StatusPage() {
             </CardContent>
           </Card>
         </main>
+        <Footer />
       </div>
     </>
   );
