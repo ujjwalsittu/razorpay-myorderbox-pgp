@@ -34,10 +34,11 @@ export default function TermsAndConditions() {
                   1. Acceptance of Terms
                 </h2>
                 <p className="text-gray-700">
-                  By accessing and using Growthia Technology & Consulting's
-                  services, you accept and agree to be bound by the terms and
-                  provision of this agreement. These terms apply to all
-                  visitors, users, and others who access or use our services.
+                  By accessing and using Growthia Technology &amp;
+                  Consulting&apos;s services, you accept and agree to be bound
+                  by the terms and provision of this agreement. These terms
+                  apply to all visitors, users, and others who access or use our
+                  services.
                 </p>
               </section>
 

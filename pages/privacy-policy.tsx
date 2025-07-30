@@ -34,8 +34,9 @@ export default function PrivacyPolicy() {
                   1. Information We Collect
                 </h2>
                 <p className="text-gray-700 mb-4">
-                  Growthia Technology & Consulting ("we," "our," or "us")
-                  collects the following information:
+                  Growthia Technology & Consulting (&quot;we,&quot;
+                  &quot;our,&quot; or &quot;us&quot;) collects the following
+                  information:
                 </p>
                 <ul className="list-disc pl-6 space-y-2 text-gray-700">
                   <li>

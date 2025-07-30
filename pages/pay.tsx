@@ -5,7 +5,6 @@ import Script from "next/script";
 import Navbar from "@/components/navbar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { verifyChecksum } from "@/lib/utils";
 import { CheckCircle, XCircle, AlertCircle } from "lucide-react";
 import Footer from "@/components/footer";
 
