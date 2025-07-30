@@ -1,7 +1,7 @@
 // app/layout.tsx
 import "./globals.css";
 import { ThemeProvider } from "@/app/components/theme-provider";
-import SpaceTrailBackground from "@/app/components/SpaceTrailBackground"; // NEW
+import SpaceTrailBackground from "@/app/components/SpaceTrailBackground";
 import Link from "next/link";
 
 export const metadata = {
@@ -15,17 +15,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="light">
       <head>
         <script
           src="https://checkout.razorpay.com/v1/checkout.js"
           async
         ></script>
       </head>
-      <body className="bg-black text-white min-h-screen flex flex-col relative">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <SpaceTrailBackground /> {/* NEW SPACE TRAIL BACKGROUND */}
-          <header className="bg-white/70 backdrop-blur dark:bg-gray-900/70 shadow py-1 px-2 z-10 relative">
+      <body className="bg-white text-black min-h-screen flex flex-col relative">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+        >
+          <SpaceTrailBackground />
+
+          <header className="bg-white/70 backdrop-blur shadow py-1 px-2 z-10 relative">
             <div className="container mx-auto flex justify-center">
               <img
                 src="/logo-black.png"
@@ -34,10 +39,12 @@ export default function RootLayout({
               />
             </div>
           </header>
+
           <main className="container mx-auto px-1 py-1 flex-1 w-full relative z-10">
             {children}
           </main>
-          <footer className="bg-gray-100/80 backdrop-blur dark:bg-gray-800/70 py-1 text-center text-sm text-gray-600 dark:text-gray-300 z-10 relative">
+
+          <footer className="bg-gray-100/80 backdrop-blur py-1 text-center text-sm text-gray-600 z-10 relative">
             <div className="space-x-2">
               <Link href="/" className="hover:underline">
                 Home

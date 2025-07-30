@@ -66,7 +66,7 @@ export function PayPageClient() {
         email,
       },
       theme: {
-        color: "#1e40af", // tailwind blue-800
+        color: "#1e40af", // blue-800
       },
       modal: {
         ondismiss: function () {
@@ -80,30 +80,28 @@ export function PayPageClient() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-muted px-1">
-      <Card className="w-full max-w-md shadow-lg">
-        <CardContent className="space-y-2 pt-2">
+    <div className="flex justify-center items-center min-h-screen bg-white px-4">
+      <Card className="w-full max-w-md shadow-lg p-4 border border-gray-200">
+        <CardContent className="space-y-4 p-4">
           <div className="text-center">
-            <h2 className="text-xl font-semibold text-primary">
+            <h2 className="text-xl font-semibold text-blue-900">
               Pay via Razorpay
             </h2>
-            <p className="text-sm text-muted-foreground mt-0">
-              Secure payment gateway
-            </p>
+            <p className="text-sm text-gray-500 mt-1">Secure payment gateway</p>
           </div>
-          <div className="space-y-0.5">
+          <div className="space-y-1">
             <p>
-              <span className="text-muted-foreground">Transaction ID:</span>{" "}
-              <strong className="text-foreground">{transid}</strong>
+              <span className="text-gray-500">Transaction ID:</span>{" "}
+              <strong className="text-gray-800">{transid}</strong>
             </p>
             <p>
-              <span className="text-muted-foreground">Amount:</span>{" "}
-              <strong className="text-foreground">
+              <span className="text-gray-500">Amount:</span>{" "}
+              <strong className="text-gray-800">
                 ₹{sellingcurrencyamount}
               </strong>
             </p>
           </div>
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {error && <p className="text-red-600 text-sm">{error}</p>}
           <Button
             className="w-full"
             onClick={handlePayment}
