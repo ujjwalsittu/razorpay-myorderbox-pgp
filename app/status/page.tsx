@@ -63,19 +63,19 @@ export default function StatusPage() {
   const { title, icon, desc } = getStatusUI();
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="max-w-md w-full space-y-6 text-center">
+    <div className="min-h-screen flex items-center justify-center p-1">
+      <div className="max-w-md w-full space-y-2 text-center">
         <Alert>
           <div className="flex items-center justify-center space-x-2">
             {icon}
             <AlertTitle className="text-xl font-bold">{title}</AlertTitle>
           </div>
-          <AlertDescription className="mt-2 text-sm text-muted-foreground">
+          <AlertDescription className="mt-0.5 text-sm text-muted-foreground">
             {desc}
           </AlertDescription>
         </Alert>
 
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 mt-1">
           Redirecting in{" "}
           <span className="font-medium text-gray-900">{redirectCountdown}</span>{" "}
           seconds...

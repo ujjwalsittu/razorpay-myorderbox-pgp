@@ -80,18 +80,18 @@ export function PayPageClient() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-muted px-4">
+    <div className="flex justify-center items-center min-h-screen bg-muted px-1">
       <Card className="w-full max-w-md shadow-lg">
-        <CardContent className="space-y-6 pt-6">
+        <CardContent className="space-y-2 pt-2">
           <div className="text-center">
             <h2 className="text-xl font-semibold text-primary">
               Pay via Razorpay
             </h2>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm text-muted-foreground mt-0">
               Secure payment gateway
             </p>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-0.5">
             <p>
               <span className="text-muted-foreground">Transaction ID:</span>{" "}
               <strong className="text-foreground">{transid}</strong>

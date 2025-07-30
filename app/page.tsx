@@ -15,7 +15,9 @@ export default function HomePage() {
   const router = useRouter();
 
   const handlePayment = () => {
-    if (!amount || !phone || !email) return alert("Please fill all fields");
+    if (!amount || !phone || !email || !name) {
+      return alert("Please fill all fields");
+    }
 
     const options: any = {
       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
@@ -41,41 +43,54 @@ export default function HomePage() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 px-4">
-      <Card className="w-full max-w-md">
-        <CardContent className="p-6 space-y-4">
-          <h2 className="text-xl font-semibold">Make a Payment</h2>
-          <div className="space-y-2">
+    <div className="relative min-h-dvh w-full overflow-hidden flex items-center justify-center">
+      {/* Payment Card */}
+      <Card className="relative z-10 w-full max-w-sm p-3 shadow-xl rounded-2xl border border-gray-200 bg-white dark:bg-gray-900">
+        <CardContent className="space-y-2">
+          <h2 className="text-lg font-semibold text-center">Make a Payment</h2>
+
+          <div className="space-y-0.5">
             <Label>Name</Label>
-            <Input value={name} onChange={(e) => setName(e.target.value)} />
+            <Input
+              placeholder="Your full name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
-          <div className="space-y-2">
+
+          <div className="space-y-0.5">
             <Label>Email</Label>
             <Input
               type="email"
+              placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="space-y-2">
+
+          <div className="space-y-0.5">
             <Label>Phone (India)</Label>
             <Input
               type="tel"
+              placeholder="10-digit phone"
               maxLength={10}
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
           </div>
-          <div className="space-y-2">
+
+          <div className="space-y-0.5">
             <Label>Amount (INR)</Label>
             <Input
               type="number"
-              min="1"
+              placeholder="Amount in ₹"
+              min={1}
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
           </div>
-          <Button className="w-full" onClick={handlePayment}>
+
+          <Button className="w-full mt-0.5" onClick={handlePayment}>
             Pay with Razorpay
           </Button>
         </CardContent>
