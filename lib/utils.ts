@@ -16,6 +16,7 @@ export function generateChecksum(
   key: string
 ): string {
   const str = `${transId}|${sellingCurrencyAmount}|${accountingCurrencyAmount}|${status}|${rkey}|${key}`;
+  console.log("Checksum string:", str); // Add this for debugging
   return crypto.createHash("md5").update(str).digest("hex");
 }
 

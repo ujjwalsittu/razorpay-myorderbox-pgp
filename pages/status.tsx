@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { generateChecksum, generateRandomKey } from "@/lib/utils";
 import { CheckCircle, XCircle, Clock } from "lucide-react";
-import Footer from "@/components/footer";
 
 export default function StatusPage() {
   const router = useRouter();
@@ -27,42 +26,56 @@ export default function StatusPage() {
       const sellingamount = router.query.sellingamount as string;
       const accountingamount = router.query.accountingamount as string;
 
-      // Generate random key and checksum for MyOrderBox
-      const rkey = generateRandomKey();
-      const key = process.env.MYORDERBOX_KEY || "";
-      const checksum = generateChecksum(
-        transid,
-        sellingamount,
-        accountingamount,
-        status,
-        rkey,
-        key
-      );
+      // Generate checksum via API route instead of client-side
+      try {
+        const response = await fetch("/api/generate-redirect-checksum", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            transid,
+            sellingamount,
+            accountingamount,
+            status,
+          }),
+        });
 
-      // Create form and submit to MyOrderBox
-      const form = document.createElement("form");
-      form.method = "POST";
-      form.action = redirecturl;
+        const result = await response.json();
 
-      const fields = {
-        transid,
-        status,
-        rkey,
-        checksum,
-        sellingamount,
-        accountingamount,
-      };
+        if (result.success) {
+          // Create form and submit to MyOrderBox
+          const form = document.createElement("form");
+          form.method = "POST";
+          form.action = redirecturl;
 
-      Object.entries(fields).forEach(([name, value]) => {
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = name;
-        input.value = value;
-        form.appendChild(input);
-      });
+          const fields = {
+            transid,
+            status,
+            rkey: result.rkey,
+            checksum: result.checksum,
+            sellingamount,
+            accountingamount,
+          };
 
-      document.body.appendChild(form);
-      form.submit();
+          Object.entries(fields).forEach(([name, value]) => {
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = name;
+            input.value = value;
+            form.appendChild(input);
+          });
+
+          document.body.appendChild(form);
+          form.submit();
+        } else {
+          console.error("Failed to generate checksum:", result.error);
+          setRedirecting(false);
+        }
+      } catch (error) {
+        console.error("Error generating checksum:", error);
+        setRedirecting(false);
+      }
     };
 
     if (router.isReady && router.query.redirecturl) {
@@ -92,42 +105,54 @@ export default function StatusPage() {
     const sellingamount = router.query.sellingamount as string;
     const accountingamount = router.query.accountingamount as string;
 
-    // Generate random key and checksum for MyOrderBox
-    const rkey = generateRandomKey();
-    const key = process.env.MYORDERBOX_KEY || "";
-    const checksum = generateChecksum(
-      transid,
-      sellingamount,
-      accountingamount,
-      status,
-      rkey,
-      key
-    );
+    try {
+      const response = await fetch("/api/generate-redirect-checksum", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          transid,
+          sellingamount,
+          accountingamount,
+          status,
+        }),
+      });
 
-    // Create form and submit to MyOrderBox
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = redirecturl;
+      const result = await response.json();
 
-    const fields = {
-      transid,
-      status,
-      rkey,
-      checksum,
-      sellingamount,
-      accountingamount,
-    };
+      if (result.success) {
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = redirecturl;
 
-    Object.entries(fields).forEach(([name, value]) => {
-      const input = document.createElement("input");
-      input.type = "hidden";
-      input.name = name;
-      input.value = value;
-      form.appendChild(input);
-    });
+        const fields = {
+          transid,
+          status,
+          rkey: result.rkey,
+          checksum: result.checksum,
+          sellingamount,
+          accountingamount,
+        };
 
-    document.body.appendChild(form);
-    form.submit();
+        Object.entries(fields).forEach(([name, value]) => {
+          const input = document.createElement("input");
+          input.type = "hidden";
+          input.name = name;
+          input.value = value;
+          form.appendChild(input);
+        });
+
+        document.body.appendChild(form);
+        form.submit();
+      } else {
+        console.error("Failed to generate checksum:", result.error);
+        setRedirecting(false);
+      }
+    } catch (error) {
+      console.error("Error generating checksum:", error);
+      setRedirecting(false);
+    }
   };
 
   const getStatusIcon = () => {
@@ -178,10 +203,10 @@ export default function StatusPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 flex flex-col">
         <Navbar />
 
-        <main className="max-w-md mx-auto pt-16 px-4">
+        <main className="flex-1 max-w-md mx-auto pt-16 px-4">
           <Card>
             <CardHeader>
               <CardTitle className="text-center">Payment Status</CardTitle>
@@ -227,6 +252,7 @@ export default function StatusPage() {
             </CardContent>
           </Card>
         </main>
+
         <Footer />
       </div>
     </>
